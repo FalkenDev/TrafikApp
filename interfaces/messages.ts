@@ -1,4 +1,4 @@
-import GeometryCode from "./stations_geo"
+import GeometryCode from "./delaysInterface/stations_geo"
 import ReasonCode from "./messagesInterface/reasonCode"
 import TrafficImpact from "./messagesInterface/trafficImpact"
 
