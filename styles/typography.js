@@ -5,21 +5,23 @@ export const title = {
 };
 
 export const header2 = {
-    color: '#333',
+    color: '#fff',
     fontSize: 24,
     borderBottomWidth: 2,
     borderLeftColor: 'black',
     marginTop: 10,
+    marginLeft : 10,
 }
 
 export const label = {
-    color: '#333',
+    color: '#fff',
     fontSize: 20,
     marginTop: 10,
     marginLeft: 10,
+    marginBottom: 10,
 }
 export const labelDate = {
-    color: '#333',
+    color: '#fff',
     fontSize: 16,
     marginTop: 10,
 }
@@ -47,4 +49,8 @@ export const warning = {
     marginLeft: 0,
     marginTop: 5,
     marginBottom: 5,
+}
+
+export const color = {
+    color: '#fff',
 }
