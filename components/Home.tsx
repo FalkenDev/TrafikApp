@@ -5,6 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import nature from '../assets/nature.jpg';
 
 export default function Home(route) {
+  console.log("Home");
   return (
     <SafeAreaView style={Base.container}>
         <View style={Base.home}>
