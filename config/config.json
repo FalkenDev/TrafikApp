@@ -1,0 +1,8 @@
+{
+    "delayed_url":"https://trafik.emilfolino.se/delayed",
+    "codes_url":"https://trafik.emilfolino.se/codes",
+    "messages_url":"https://trafik.emilfolino.se/messages",
+    "stations_url":"https://trafik.emilfolino.se/stations",
+    "api_key": "29558fc0a9f55732f0d577ea1fe6fbd1",
+    "authWeb": "https://auth.emilfolino.se"
+}
