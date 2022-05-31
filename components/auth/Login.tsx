@@ -18,8 +18,8 @@ export default function Login({ navigation, setIsLoggedIn }) {
             showMessage(result);
         } else {
             showMessage({
-                message: "Mail or password missing",
-                description: "Please enter both email and password",
+                message: "E-post eller lössenord fattas",
+                description: "Var vänligen att skriva in både e-post och lössenord",
                 type: "warning"
             });
         }
