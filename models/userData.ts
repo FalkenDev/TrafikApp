@@ -5,7 +5,6 @@ const userData = {
     getData: async function getData(){
         console.log("------| Get Data |------");
         const getToken = await storage.readToken();
-        console.log(getToken);
 
         const response = await fetch(`${config.authWeb}/data?api_key=${config.api_key}`,
         {
