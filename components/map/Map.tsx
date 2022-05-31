@@ -2,15 +2,14 @@ import { useEffect, useState } from "react";
 import { Text, View, StyleSheet } from "react-native";
 import { Base } from "../../styles";
 
-import MapView, { Callout } from 'react-native-maps';
-import { Marker } from "react-native-maps";
+import MapView, { Marker, Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
 
 import traffic from '../../models/traffic'
 
 import getCoordinates from "../../models/nominatim";
 
-export default function ShipOrder({ route, trafficInfo }) {
+export default function TrainMap({ route, trafficInfo }) {
     const [locationMarker, setLocationMarker] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
     let trainNumber = [];
@@ -79,7 +78,7 @@ export default function ShipOrder({ route, trafficInfo }) {
                         >
                         <Callout tooltip>
                             <View style={Base.callOutView}>
-                                <Text style={Base.callOutText}>Stad: {item.AdvertisedLocationName}</Text>
+                                <Text style={Base.callOutText}>Station: {item.AdvertisedLocationName}</Text>
                                 <Text style={Base.callOutText}>Tågnr: {item.AdvertisedTrainIdent}</Text>
                                 <Text style={Base.callOutText}>Skulle komma: {timeArray1[1].slice(0, -3)}</Text>
                                 <Text style={Base.callOutText}>Försenat till: {timeArray2[1].slice(0, -3)}</Text>
