@@ -6,7 +6,7 @@ import userData from '../../models/userData';
 import { Typography } from '../../styles/index.js';
 import { showMessage } from 'react-native-flash-message';
 
-export default function OrderList({ route, navigation, trafficInfo, setTrafficInfo}) {
+export default function DetailsStation({ route, navigation, trafficInfo, setTrafficInfo}) {
     console.log("------| Traffic delays list |------")
     const { item } = route.params;
     let haveTrains = true;
