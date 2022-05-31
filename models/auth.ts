@@ -17,8 +17,6 @@ const auth = {
             password: password
         };
 
-        console.log(data);
-
         const respons = await fetch(`${config.authWeb}/register`,
         {
             method:"POST",
@@ -50,7 +48,6 @@ const auth = {
             email: email,
             password: password
         };
-        console.log(data);
 
         const respons = await fetch(`${config.authWeb}/login`,
         {
