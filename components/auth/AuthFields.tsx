@@ -8,8 +8,8 @@ export default function AuthFields({ auth, setAuth, title, submit, navigation}) 
         const pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (!text.match(pattern)) {
             showMessage({
-                message:"Invalid email",
-                description: "Email must meet type: aaa@aa.aa",
+                message:"Ogiltig e-postadress",
+                description: "E-post måste uppfylla typ: aaa@aa.aa",
                 type: "warning"
             })
         }
@@ -19,8 +19,8 @@ export default function AuthFields({ auth, setAuth, title, submit, navigation}) 
         const pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{4,}$/;
         if (!text.match(pattern)) {
             showMessage({
-                message:"Invalid password",
-                description: "The password must contain at least 4 characters, 1 number, 1 upper and 1 lowercase.",
+                message:"Ogiltig lössenord",
+                description: "Lösenordet måste innehålla minst 4 tecken, 1 siffra, 1 stor och 1 liten bokstav.",
                 type: "warning"
             })
         }
