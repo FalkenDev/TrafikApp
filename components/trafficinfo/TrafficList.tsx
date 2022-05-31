@@ -3,7 +3,7 @@ import { ScrollView, Text, Button, StyleSheet } from "react-native";
 import { Typography } from '../../styles/index.js';
 import traffic from "../../models/traffic"
 
-export default function OrderList({ route, navigation, trafficInfo, setTrafficInfo, finalDestination, setFinalDestination}) {
+export default function TrafficList({ route, navigation, trafficInfo, setTrafficInfo /* ,finalDestination, setFinalDestination */}) {
     console.log("------| Traffic delays list |------")
     let ifTrians = false;
     let trainNumber = [];
@@ -11,9 +11,7 @@ export default function OrderList({ route, navigation, trafficInfo, setTrafficIn
     async function reloadTrafficInfo() {
         console.log("Loading");
         setTrafficInfo(await traffic.getTrafficInfo());
-        //setFinalDestination(await traffic.getFinalDestination());
-        //console.log("finalDestination");
-        //console.log(finalDestination);
+        //setFinalDestination(await traffic.getFinalDestination(trafficInfo));
     }
 
     useEffect(() => {
@@ -39,12 +37,11 @@ export default function OrderList({ route, navigation, trafficInfo, setTrafficIn
             if(trainNumber.includes(item.AdvertisedTrainIdent)) {
                 return;
             };
-            //let finalStation = finalDestination[index].AdvertisedLocationName;
             trainNumber.push(item.AdvertisedTrainIdent);
             return(
             <Button
                 color='#1a1a1a'
-                title={item.AdvertisedLocationName + " Tågnr " + item.AdvertisedTrainIdent}
+                title={item.AdvertisedLocationName + " Tågnr: " + item.AdvertisedTrainIdent}
                 key={index}
                 onPress={() => {
                     navigation.navigate('Details', {
