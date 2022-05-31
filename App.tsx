@@ -17,7 +17,7 @@ import authModel from "./models/auth";
 const Tab = createBottomTabNavigator();
 const routeIcons = {
   "Hem": "home",
-  "Stationer":"transfer-within-a-station",
+  "Alla stationer":"transfer-within-a-station",
   "Trafikinfo":"train",
   "Karta":"map",
   "Logga in":"login",
@@ -35,7 +35,7 @@ export default function App() {
       console.log("Getting login");
       setIsLoggedIn(await authModel.loggedIn());
       setTrafficInfo(await traffic.getTrafficInfo());
-      //setFinalDestination(await traffic.getFinalDestination());
+      //setFinalDestination(await traffic.getFinalDestination(trafficInfo));
     })();
 }, []);
 
@@ -72,13 +72,13 @@ export default function App() {
     >
           <Tab.Screen name="Hem" component={Home}/>
           <Tab.Screen name="Trafikinfo">
-            {() => <TrafficInfo trafficInfo={trafficInfo} setTrafficInfo={setTrafficInfo} /*finalDestination={finalDestination} setFinalDestination={setFinalDestination}*//>}
+            {() => <TrafficInfo trafficInfo={trafficInfo} setTrafficInfo={setTrafficInfo} /*finalDestination={finalDestination} setFinalDestination={setFinalDestination}*/ />}
           </Tab.Screen>
           <Tab.Screen name="Karta">
             {() => <Map trafficInfo={trafficInfo}/>}
           </Tab.Screen>
           {isLoggedIn
-            ?<Tab.Screen name="Stationer">
+            ?<Tab.Screen name="Alla stationer">
               {() => <Favorite favorite={favorite} setFavorite={setFavorite} setIsLoggedIn={setIsLoggedIn} trafficInfo={trafficInfo} setTrafficInfo={setTrafficInfo}/>}
             </Tab.Screen>
             :<Tab.Screen name="Logga in">
