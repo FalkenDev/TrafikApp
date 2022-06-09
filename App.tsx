@@ -28,16 +28,18 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
   const [trafficInfo, setTrafficInfo] = useState([]);
   const [favorite, setFavorite] = useState([]);
-  //const [finalDestination, setFinalDestination] = useState([]);
+  const [finalDestination, setFinalDestination] = useState([]);
 
   useEffect(() => {
     (async () => {
       console.log("Getting login");
       setIsLoggedIn(await authModel.loggedIn());
       setTrafficInfo(await traffic.getTrafficInfo());
-      //setFinalDestination(await traffic.getFinalDestination(trafficInfo));
+      setFinalDestination(await traffic.getFinalDestination(trafficInfo));
     })();
 }, []);
+
+console.log(finalDestination);
 
   return (
     <SafeAreaView style={Base.container}>
@@ -72,7 +74,7 @@ export default function App() {
     >
           <Tab.Screen name="Hem" component={Home}/>
           <Tab.Screen name="Trafikinfo">
-            {() => <TrafficInfo trafficInfo={trafficInfo} setTrafficInfo={setTrafficInfo} /*finalDestination={finalDestination} setFinalDestination={setFinalDestination}*/ />}
+            {() => <TrafficInfo trafficInfo={trafficInfo} setTrafficInfo={setTrafficInfo} finalDestination={finalDestination} setFinalDestination={setFinalDestination} />}
           </Tab.Screen>
           <Tab.Screen name="Karta">
             {() => <Map trafficInfo={trafficInfo}/>}
