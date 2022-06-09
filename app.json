@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "proj",
-    "slug": "proj",
+    "name": "TrainTraffic",
+    "slug": "TrainTraffic",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/frame.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/Loading.png",
+      "image": "./assets/FalkenDevLogo.png",
       "resizeMode": "contain",
       "backgroundColor": "#000000"
     },
