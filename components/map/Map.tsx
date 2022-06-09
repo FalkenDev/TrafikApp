@@ -17,7 +17,7 @@ export default function TrainMap({ route, trafficInfo }) {
     function strToMins(t) {
         var s = t.split(":");
         return Number(s[0]) * 60 + Number(s[1]);
-      }
+    }
       
     function minsToStr(t) {
         if(Math.trunc(t / 60) === 0)
