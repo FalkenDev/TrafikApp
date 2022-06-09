@@ -77,11 +77,17 @@ export default function DetailsStation({ route, navigation, trafficInfo, setTraf
                     <DataTable.Cell>
                         <Text style={{ color: "#fff" }}>{train.AdvertisedTrainIdent}</Text>
                     </DataTable.Cell>
-                    <DataTable.Cell>
-                        <Text style={{ color: "#fff" }}>{timeArray1[1]}</Text>
+                    <DataTable.Cell style={{flex: 1.4}}>
+                        <Text style={{ color: "#fff" }}>{timeArray1[1].slice(0, -3)}</Text>
+                    </DataTable.Cell>
+                    <DataTable.Cell style={{flex: 1.4}}>
+                        <Text style={{ color: "#fff" }}>{timeArray2[1].slice(0, -3)}</Text>
                     </DataTable.Cell>
                     <DataTable.Cell>
-                        <Text style={{ color: "#fff" }}>{timeArray2[1]}</Text>
+                    {item.Canceled
+                        ?<Text style={{ color: "red" }}>Tåget är Inställt</Text>
+                        :<Text style={{ color: "#fff" }}>Nej</Text>
+                    }
                     </DataTable.Cell>
                 </DataTable.Row>
             );
@@ -112,11 +118,14 @@ export default function DetailsStation({ route, navigation, trafficInfo, setTraf
                     <DataTable.Title>
                         <Text style={{ color: "#fff" }}>Tåg</Text>
                     </DataTable.Title>
-                    <DataTable.Title>
+                    <DataTable.Title style={{flex: 1.4}}>
                         <Text style={{ color: "#fff" }}>Skulle komma</Text>
                     </DataTable.Title>
-                    <DataTable.Title>
+                    <DataTable.Title style={{flex: 1.4}}>
                         <Text style={{ color: "#fff" }}>Försenad till</Text>
+                    </DataTable.Title>
+                    <DataTable.Title>
+                        <Text style={{ color: "#fff" }}>Inställd</Text>
                     </DataTable.Title>
                 </DataTable.Header>
                 {listOfTrains}
