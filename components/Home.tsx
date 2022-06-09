@@ -1,8 +1,9 @@
-import { ImageBackground, Text, View } from 'react-native';
+import { ImageBackground, Text, View, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Base, Typography } from '../styles/index.js'; 
+import { Base } from '../styles/index.js'; 
 import { StatusBar } from 'expo-status-bar';
 import nature from '../assets/nature.jpg';
+import falkendev from '../assets/FalkenDevLogo.png';
 
 export default function Home(route) {
   console.log("Home");
@@ -10,10 +11,7 @@ export default function Home(route) {
     <SafeAreaView style={Base.container}>
         <View style={Base.home}>
         <ImageBackground source={nature} resizeMode="cover" style={Base.image}>
-        <Text style={Typography.title}>I denna app kan du hitta:</Text>
-          <Text style={Typography.title}>Trafikinfo</Text>
-          <Text style={Typography.title}>Karta och GPS</Text>
-          <Text style={Typography.title}>Stationer</Text>
+          <Image source={falkendev} style={{marginLeft: 50, marginBottom: 300}}></Image>
         </ImageBackground>
       </View>
       <StatusBar style="light" />
