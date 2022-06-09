@@ -1,11 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
-import { ImageBackground, ScrollView, Text, Button, StyleSheet, Pressable } from "react-native";
+import { ImageBackground, ScrollView, Text, Button, StyleSheet, Pressable, View } from "react-native";
 import { Typography, Base } from '../../styles/index.js';
 import traffic from "../../models/traffic"
 import * as SplashScreen from 'expo-splash-screen';
-import LoadingScreen from '../../assets/loading.gif'
-import { color } from '../../styles/typography.js';
 import loading from '../../assets/Loading.png';
+import { AntDesign } from '@expo/vector-icons'; 
 
 export default function TrafficList({ route, navigation, trafficInfo, setTrafficInfo, finalDestination, setFinalDestination }) {
     console.log("------| Traffic delays list |------")
@@ -21,7 +20,7 @@ export default function TrafficList({ route, navigation, trafficInfo, setTraffic
             await SplashScreen.preventAutoHideAsync();
             setTrafficInfo(await traffic.getTrafficInfo());
             setFinalDestination(await traffic.getFinalDestination(trafficInfo));
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            await new Promise(resolve => setTimeout(resolve, 3000));
         } catch(e) {
             console.warn(e);
         } finally {
@@ -33,8 +32,6 @@ export default function TrafficList({ route, navigation, trafficInfo, setTraffic
         console.log("useEffect")
         navigation.addListener('focus', () => reloadTrafficInfo())
     }, []);
-
-    console.log(finalDestination);
 
 
     // Sorts alphabetically from title
@@ -88,14 +85,19 @@ export default function TrafficList({ route, navigation, trafficInfo, setTraffic
             let timeArray2 = item.EstimatedTimeAtLocation.replace(/[^0-9\s-:+]/gm, " ")
             timeArray2 = timeArray2.split(" ");
             return(
-            <Pressable style={styles.buttons} key={index} onPress={() => { navigation.navigate('Details', { item: item }); }}>
-            <Text style={styles.text}>{item.AdvertisedLocationName + " - " + station}</Text>
-            <Text style={styles.text}>
-                Tid: <Text style={{ textDecorationLine: 'line-through', color: "red" }}> {timeArray1[1].slice(0, -3)} </Text>  
-                <Text>  </Text>
-                {timeArray2[1].slice(0, -3)}
-            </Text>
-            <Text style={styles.text}>Tåg: {item.AdvertisedTrainIdent}</Text>
+            <Pressable style={styles.buttons} key={index} onPress={() => { navigation.navigate('Details', { item: item, station: station }); }}>
+                <View style={styles.trainInfoView}>
+                    <Text style={styles.text}>{item.AdvertisedLocationName + " - " + station}</Text>
+                    <Text style={styles.text}>
+                        Tid: <Text style={{ textDecorationLine: 'line-through', color: "red" }}> {timeArray1[1].slice(0, -3)} </Text>  
+                        <Text>  </Text>
+                        {timeArray2[1].slice(0, -3)}
+                    </Text>
+                    <Text style={styles.text}>Tåg: {item.AdvertisedTrainIdent}</Text>
+                </View>
+                <View style={styles.arrowLogoView}>
+                    <AntDesign style={styles.arrowIcon} name="rightcircleo" size={24} color="white" />
+                </View>
             </Pressable>)
         });
 
@@ -131,6 +133,8 @@ const styles = StyleSheet.create({
         marginTop: 9,
         marginRight: 15,
         marginLeft: 15,
+        display: 'flex',
+        flexDirection: "row",
     },
     text: {
         fontSize: 16,
@@ -138,8 +142,18 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         letterSpacing: 0.25,
         color: 'white',
+        marginLeft: -15,
     },
     button: {
       backgroundColor: 'black',
+    },
+    arrowIcon: {
+        paddingTop: 19,
+    },
+    trainInfoView: {
+        width: '90%',
+    },
+    arrowLogoView: {
+
     },
   });
