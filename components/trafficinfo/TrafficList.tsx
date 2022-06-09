@@ -1,23 +1,40 @@
-import { useEffect } from 'react';
-import { ScrollView, Text, Button, StyleSheet } from "react-native";
-import { Typography } from '../../styles/index.js';
+import { useCallback, useEffect, useState } from 'react';
+import { ImageBackground, ScrollView, Text, Button, StyleSheet, Pressable } from "react-native";
+import { Typography, Base } from '../../styles/index.js';
 import traffic from "../../models/traffic"
+import * as SplashScreen from 'expo-splash-screen';
+import LoadingScreen from '../../assets/loading.gif'
+import { color } from '../../styles/typography.js';
+import loading from '../../assets/Loading.png';
 
-export default function TrafficList({ route, navigation, trafficInfo, setTrafficInfo /* ,finalDestination, setFinalDestination */}) {
+export default function TrafficList({ route, navigation, trafficInfo, setTrafficInfo, finalDestination, setFinalDestination }) {
     console.log("------| Traffic delays list |------")
     let ifTrians = false;
     let trainNumber = [];
+    const [loadingCenter, setLoading] = useState(true)
+    const [appIsReady, setAppIsReady] = useState(false);
 
     async function reloadTrafficInfo() {
-        console.log("Loading");
-        setTrafficInfo(await traffic.getTrafficInfo());
-        //setFinalDestination(await traffic.getFinalDestination(trafficInfo));
+        try {
+            console.log("Loading");
+            setAppIsReady(false);
+            await SplashScreen.preventAutoHideAsync();
+            setTrafficInfo(await traffic.getTrafficInfo());
+            setFinalDestination(await traffic.getFinalDestination(trafficInfo));
+            await new Promise(resolve => setTimeout(resolve, 2000));
+        } catch(e) {
+            console.warn(e);
+        } finally {
+            setAppIsReady(true);
+        }
     }
 
     useEffect(() => {
         console.log("useEffect")
-        navigation.addListener('focus', () => reloadTrafficInfo());
+        navigation.addListener('focus', () => reloadTrafficInfo())
     }, []);
+
+    console.log(finalDestination);
 
 
     // Sorts alphabetically from title
@@ -30,47 +47,98 @@ export default function TrafficList({ route, navigation, trafficInfo, setTraffic
         }
         return 0;
       }
+      let station = "";
 
-    // Get all delay trains, filter out all the same train number
-    const listOfDelays = trafficInfo
+    const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+        // This tells the splash screen to hide immediately! If we call this after
+        // `setAppIsReady`, then we may see a blank screen while the app is
+        // loading its initial state and rendering its first pixels. So instead,
+        // we hide the splash screen once we know the root view has already
+        // performed layout.
+        await SplashScreen.hideAsync();
+    }
+    }, [appIsReady]);
+
+    if (!appIsReady) {
+        return (
+            <ScrollView style={styles.button}>
+                <ImageBackground source={loading} resizeMode="contain" style={Base.image}>
+                </ImageBackground>
+            </ScrollView>
+        )
+    } else {
+        // Get all delay trains, filter out all the same train number
+        const listOfDelays = trafficInfo
         .map((item, index) => {
             if(trainNumber.includes(item.AdvertisedTrainIdent)) {
                 return;
             };
             trainNumber.push(item.AdvertisedTrainIdent);
+            if(finalDestination !== undefined) {
+                station = finalDestination[index].AdvertisedLocationName
+            } else {
+                station = "Undefined";
+            }
+            // Time from AdvertisedTimeAtLocation in array
+            let timeArray1 = item.AdvertisedTimeAtLocation.replace(/[^0-9\s-:+]/gm, " ")
+            timeArray1 = timeArray1.split(" ");
+
+            // Time from EstimatedTimeAtLocation in array
+            let timeArray2 = item.EstimatedTimeAtLocation.replace(/[^0-9\s-:+]/gm, " ")
+            timeArray2 = timeArray2.split(" ");
             return(
-            <Button
-                color='#1a1a1a'
-                title={item.AdvertisedLocationName + " Tågnr: " + item.AdvertisedTrainIdent}
-                key={index}
-                onPress={() => {
-                    navigation.navigate('Details', {
-                        item: item
-                    });
-                }}
-            />)
+            <Pressable style={styles.buttons} key={index} onPress={() => { navigation.navigate('Details', { item: item }); }}>
+            <Text style={styles.text}>{item.AdvertisedLocationName + " - " + station}</Text>
+            <Text style={styles.text}>
+                Tid: <Text style={{ textDecorationLine: 'line-through', color: "red" }}> {timeArray1[1].slice(0, -3)} </Text>  
+                <Text>  </Text>
+                {timeArray2[1].slice(0, -3)}
+            </Text>
+            <Text style={styles.text}>Tåg: {item.AdvertisedTrainIdent}</Text>
+            </Pressable>)
         });
 
-    // Sort the array of objects
-    listOfDelays.sort( sortAlpha )
+        // Sort the array of objects
+        listOfDelays.sort( sortAlpha )
 
-    if(listOfDelays.length === 0) {
-        ifTrians = true;
+        if(listOfDelays.length === 0) {
+            ifTrians = true;
+        }
+
+        return (
+            <ScrollView style={styles.button}>
+                {ifTrians
+                    ?<Text style={Typography.warning}>Det finns inga tåg information just nu.</Text>
+                    :[]
+                }
+                { listOfDelays }
+            </ScrollView>
+        );
     }
-
-    return (
-        <ScrollView style={styles.button}>
-            {ifTrians
-                ?<Text style={Typography.warning}>Det finns inga tåg information just nu.</Text>
-                :<Text></Text>
-            }
-            {listOfDelays}
-            <Text></Text>
-        </ScrollView>
-    );
 }
 
 const styles = StyleSheet.create({
+    buttons: {
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 5,
+        backgroundColor: 'black',
+        borderColor: "white",
+        borderWidth: 1,
+        marginBottom: 9,
+        marginTop: 9,
+        marginRight: 15,
+        marginLeft: 15,
+    },
+    text: {
+        fontSize: 16,
+        lineHeight: 21,
+        fontWeight: 'bold',
+        letterSpacing: 0.25,
+        color: 'white',
+    },
     button: {
       backgroundColor: 'black',
     },
